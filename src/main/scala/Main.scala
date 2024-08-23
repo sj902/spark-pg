@@ -20,10 +20,15 @@ object Main {
 
     val counts = Seq(("abc", 1), ("def", 2), ("ghi", 3), ("abc", 5)).toDF("acc", "txn")
 
-    counts
+    counts.show()
+    val map = counts
       .groupBy("acc")
       .agg(count("txn").as("count"))
       .sort($"count".desc)
-      .show
+      .limit(2)
+      .collect()
+      .map(row => (row(0), row(1)))
+      .toMap
+    println(map)
   }
 }
