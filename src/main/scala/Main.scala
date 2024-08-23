@@ -20,6 +20,10 @@ object Main {
 
     val counts = Seq(("abc", 1), ("def", 2), ("ghi", 3), ("abc", 5)).toDF("acc", "txn")
 
-    counts.groupBy("acc").agg(count("txn").as("count")).show
+    counts
+      .groupBy("acc")
+      .agg(count("txn").as("count"))
+      .sort($"count".desc)
+      .show
   }
 }
